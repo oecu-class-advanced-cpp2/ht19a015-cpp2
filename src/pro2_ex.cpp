@@ -32,33 +32,46 @@ bool IsPrime(int num)
  */
  /* -------------------------------------------------------------- */
 int nth_prime(unsigned int a, unsigned int d, unsigned int n) {
-	unsigned int* numptr;
-	numptr = (unsigned int *)malloc(sizeof(unsigned int) * CPP2_PRIME_UPPER_LIMIT);
+	if (n == 0) {
+		throw std::exception("n must be more than one, or else, could cause access error");
+	}
 
-	unsigned int* prime;
-	prime = (unsigned int *)malloc(sizeof(unsigned int) * CPP2_PRIME_UPPER_LIMIT);
+	//なんとなくnまでの整数を残しておく...
+	//メモリアクセスの遅さを感じた
+	uint32_t* prime;
+	prime = (uint32_t *)malloc(sizeof(uint32_t) * n);
+
+	//素数リストのインデックス
+	uint32_t prime_index = 0;
 	//最初の数字
-	numptr[0] = a;
+	uint32_t num = a;
 
 	for (int i = 1; i < CPP2_PRIME_UPPER_LIMIT; i++) {
-		numptr[i] = numptr[i - 1] + d;
-	}
-	
-	uint32_t prime_index = 0;
-	for (int i = 0; i < CPP2_PRIME_UPPER_LIMIT; i++) {
-		if (IsPrime(numptr[i]) == true) {
-			prime[prime_index] = numptr[i];
+		if (IsPrime(num) == true) {
+			prime[prime_index] = num;
 			prime_index++;
+			if (prime_index > n) {
+				break;
+			}
 		}
+		num += d;
 	}
-
-
 	return prime[n - 1];
 };
 
 
 int main() {
 	std::cout << nth_prime(367,186,151) << std::endl;
-
+	std::cout << nth_prime(179, 10, 203) << std::endl;
+	std::cout << nth_prime(271,37,39) << std::endl;
+	std::cout << nth_prime(103,230,1) << std::endl;
+	std::cout << nth_prime(27,104,185) << std::endl;
+	std::cout << nth_prime(253,50,85) << std::endl;
+	std::cout << nth_prime(1,1,1) << std::endl;
+	std::cout << nth_prime(9075,337,210) << std::endl;
+	std::cout << nth_prime(307,24,79) << std::endl;
+	std::cout << nth_prime(331,221,177) << std::endl;
+	std::cout << nth_prime(259,170,40) << std::endl;
+	std::cout << nth_prime(269,58,102) << std::endl;
 	return 0;
 }
