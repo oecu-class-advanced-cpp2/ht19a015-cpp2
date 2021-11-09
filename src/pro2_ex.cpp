@@ -1,5 +1,8 @@
 ﻿#include <iostream> 
 #include <vector>
+#include <exception>
+#include <stdexcept>
+
 
 #define CPP2_PRIME_UPPER_LIMIT 1000000 //探索する値の上限値。 
 
@@ -32,8 +35,8 @@ bool IsPrime(int num)
  */
  /* -------------------------------------------------------------- */
 int nth_prime(unsigned int a, unsigned int d, unsigned int n) {
-	if (n == 0) {
-		throw std::exception("n must be more than one, or else, could cause access error");
+	if (n <= 0) {
+		throw std::runtime_error("n must be more than one, or else, could cause access error");
 	}
 
 	//なんとなくnまでの整数を残しておく...
@@ -57,6 +60,7 @@ int nth_prime(unsigned int a, unsigned int d, unsigned int n) {
 		num += d;
 	}
 	return prime[n - 1];
+	free(prime);
 };
 
 
