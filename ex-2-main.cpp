@@ -17,7 +17,7 @@ namespace cpp2 {
            mcxi
 
            指定された文字列を解析して、オブジェクトを初期化します。
-           以下の場合には例外が創出されます。
+           以下の場合には例外が送出されます。
 
            1. [2-9,m,c,x,i] 以外の文字が出現した場合
            2. 2 文字続けて数字 (2-9) が出現した場合
@@ -60,20 +60,51 @@ namespace cpp2 {
          */
         /* ----------------------------------------------------------------- */
         std::string to_string() const {
-        	std::stringstream ss;
+        	//error handle if val_ < 9999
 
-        	  int q = value_ / 1000;
-        	  if (q == 1){
-        	     ss << 'm';
-        	  }
-        	  if (q > 1){
-        	     ss << q;
-        	     ss << 'm';
-        	  }
+        	uint16_t temp;
+        	std::stringstream ret;
+        	//m
+			temp = value_ / 1000;
+			if (temp == 1){
+				ret << 'm';
+			}
+			if (temp > 1){
+				ret << temp;
+				ret << 'm';
+			}
 
+			//x
+			temp = (value_ /100) % 10;
+			if (temp == 1){
+				ret << 'c';
+			}
+			if (temp > 1){
+				ret << temp;
+				ret << 'c';
+			}
 
+			//c
+			temp = (value_ / 10 ) % 10;
+			if (temp == 1){
+				ret << 'x';
+			}
+			if (temp > 1){
+				ret << temp;
+				ret << 'x';
+			}
 
-        	  return ss.str();
+			//i
+			temp = value_ % 10;
+			if (temp == 1){
+				ret << 'i';
+			}
+			if (temp > 1){
+				ret << temp;
+				ret << 'i';
+			}
+
+        	  return ret.str();
         }
 
     private:
