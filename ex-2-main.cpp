@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <string>
  
 namespace cpp2 {
@@ -59,10 +60,21 @@ namespace cpp2 {
          */
         /* ----------------------------------------------------------------- */
         std::string to_string() const {
-            return "XXX";
+        	std::stringstream ss;
+
+        	  int q = value_ / 1000;
+        	  if (q == 1){
+        	     ss << 'm';
+        	  }
+        	  if (q > 1){
+        	     ss << q;
+        	     ss << 'm';
+        	  }
+
+
+
+        	  return ss.str();
         }
-
-
 
     private:
         int unit(char c){
@@ -83,6 +95,7 @@ int main(){
     cpp2::mcxi a0("m2c4i");
     cpp2::mcxi b0("x9i");
 
+    std::cout << a0.to_string() << std::endl;;
 
 #if 0
     cpp2::mcxi result0 = a0 + b0;
