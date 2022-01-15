@@ -7,6 +7,9 @@
 #define mcxi_min 0
 #define mcxi_maximum_unit 1001
 
+#define test_attempts 10
+#define invalid_args_attempts 5
+
 
 namespace cpp2 {
     /* --------------------------------------------------------------------- */
@@ -156,7 +159,11 @@ class mcxi {
 //???
 //こういう意味であってんのか...??
 bool isCorrect(mcxi &m , uint32_t n){
-	std::string correct_ans[] = { "3x", "x", "6cx", "5m9c9x9i", "m", "9m9c9x9i", "mi", "mi", "mx", "9m9c9x9i"};
+	std::string correct_ans[test_attempts] = { "3x", "x", "6cx", "5m9c9x9i", "m", "9m9c9x9i", "mi", "mi", "mx", "9m9c9x9i"};
+
+	if(test_attempts <= n){
+		throw std::range_error("segmentation fault");
+	}
 
 	if(m.to_string() != correct_ans[n]){
 		return false;
@@ -229,11 +236,11 @@ int main(){
 
 	//exception
 	std::cout << "\n";
-	std::string invalid_strings[] = {"1m2c4i","mcc4i","m2c0x4i","2cm4i"};
-	for(int i = 0; i < 4; i++){
+	std::string invalid_string[invalid_args_attempts] = {"1m2c4i","mcc4i","m2c0x4i","2cm4i","33m"};
+	for(int i = 0; i < invalid_args_attempts; i++){
 		try{
-			std::cout << invalid_strings[i] << " ";
-			cpp2::mcxi execptions(invalid_strings[i]);
+			std::cout << invalid_string[i] << " ";
+			cpp2::mcxi execptions(invalid_string[i]);
 		}
 		catch(std::exception& e){
 			std::cout << e.what() << std::endl;
