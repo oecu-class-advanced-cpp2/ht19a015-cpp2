@@ -7,6 +7,7 @@
 #define mcxi_min 0
 #define mcxi_maximum_unit 1000
 
+
 namespace cpp2 {
     /* --------------------------------------------------------------------- */
     /*
@@ -46,18 +47,17 @@ namespace cpp2 {
         			}
         			num = *pos - '0';
         		}
-        		//1
         		else{
         			//1
         			if(unit(*pos) == -1){
         				throw std::invalid_argument("invalid args, 1");
         			}
-        			//fsm in order of m -> c -> x -> i
-        			if(mcxi_unit_order <= unit(*pos)){
+        			//3
+        			if(mcxi_unit_order < unit(*pos)){
         				throw std::invalid_argument("invalid args, 3");
         			}
+        			mcxi_unit_order = unit(*pos);
         			int u = unit(*pos);
-
         			value_ += std::max(num,1) * u; //std::max
         			num = 0;
         		}
