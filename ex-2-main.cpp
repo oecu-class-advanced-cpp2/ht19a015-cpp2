@@ -5,7 +5,7 @@
 
 #define mcxi_max 9999
 #define mcxi_min 0
-#define mcxi_maximum_unit 1000
+#define mcxi_maximum_unit 1001
 
 
 namespace cpp2 {
@@ -16,7 +16,8 @@ namespace cpp2 {
        mcxi 記法を解析するクラスです。
      */
     /* --------------------------------------------------------------------- */
-    class mcxi {
+
+class mcxi {
     public:
         /* ----------------------------------------------------------------- */
         /*
@@ -53,7 +54,7 @@ namespace cpp2 {
         				throw std::invalid_argument("invalid args, 1");
         			}
         			//3
-        			if(mcxi_unit_order < unit(*pos)){
+        			if(mcxi_unit_order <= unit(*pos)){
         				throw std::invalid_argument("invalid args, 3");
         			}
         			mcxi_unit_order = unit(*pos);
@@ -151,65 +152,92 @@ namespace cpp2 {
 
         int value_;
     };
+
+//???
+//こういう意味であってんのか...??
+bool isCorrect(mcxi &m , uint32_t n){
+	std::string correct_ans[] = { "3x", "x", "6cx", "5m9c9x9i", "m", "9m9c9x9i", "mi", "mi", "mx", "9m9c9x9i"};
+
+	if(m.to_string() != correct_ans[n]){
+		return false;
+	}
+	else{
+		return true;
+	}
 }
- 
+
+}//namespace
+
+
+
 int main(){
 	try{
 		cpp2::mcxi a0("xi");
 		cpp2::mcxi b0("x9i");
-
-		std::cout << a0.to_string() << std::endl;;
-
 		cpp2::mcxi result0 = a0 + b0;
-		std::cout << "3x" <<" " << result0.to_string() << std::endl;
+		std::cout << "3x" <<" " << result0.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result0,0) << std::endl;
 
 		cpp2::mcxi a1("i");
 		cpp2::mcxi b1("9i");
 		cpp2::mcxi result1 = a1 + b1;
-		std::cout << "x" << " " << result1.to_string() << std::endl;
+		std::cout << "x" << " " << result1.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result1,1) << std::endl;
 
 		cpp2::mcxi a2("c2x2i");
 		cpp2::mcxi b2("4c8x8i");
 		cpp2::mcxi result2 = a2 + b2;
-		std::cout << "6cx" << " " << result2.to_string() << std::endl;
+		std::cout << "6cx" << " " << result2.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result2,2) << std::endl;
 
 		cpp2::mcxi a3("m2ci");
 		cpp2::mcxi b3("4m7c9x8i");
 		cpp2::mcxi result3 = a3 + b3;
-		std::cout << "5m9c9x9i" << " " << result3.to_string() << std::endl;
+		std::cout << "5m9c9x9i" << " " << result3.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result3,3) << std::endl;
 
 		cpp2::mcxi a4("9c9x9i");
 		cpp2::mcxi b4("i");
 		cpp2::mcxi result4 = a4 + b4;
-		std::cout << "m" << " " << result4.to_string() << std::endl;
+		std::cout << "m" << " " << result4.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result4,4) << std::endl;
 
 		cpp2::mcxi a5("i");
 		cpp2::mcxi b5("9m9c9x8i");
 		cpp2::mcxi result5 = a5 + b5;
-		std::cout << "9m9c9x9i" << " " << result5.to_string() << std::endl;
+		std::cout << "9m9c9x9i" << " " << result5.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result5,5) << std::endl;
 
 		cpp2::mcxi a6("m");
 		cpp2::mcxi b6("i");
 		cpp2::mcxi result6 = a6 + b6;
-		std::cout << "mi" << " " << result6.to_string() << std::endl;
+		std::cout << "mi" << " " << result6.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result6,6) << std::endl;
 
 		cpp2::mcxi a7("i");
 		cpp2::mcxi b7("m");
 		cpp2::mcxi result7 = a7 + b7;
-		std::cout << "mi" << " " << result7.to_string() << std::endl;
+		std::cout << "mi" << " " << result7.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result7,7) << std::endl;
 
 		cpp2::mcxi a8("m9i");
 		cpp2::mcxi b8("i");
 		cpp2::mcxi result8 = a8 + b8;
-		std::cout << "mx" << " " << result8.to_string() << std::endl;
+		std::cout << "mx" << " " << result8.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result8,8) << std::endl;
 
 		cpp2::mcxi a9("9m8c7xi");
 		cpp2::mcxi b9("c2x8i");
 		cpp2::mcxi result9 = a9 + b9;
-		std::cout << "9m9c9x9i" << " " << result9.to_string() << std::endl;
+		std::cout << "9m9c9x9i" << " " << result9.to_string() << " "<< std::boolalpha << cpp2::isCorrect(result9,9) << std::endl;
 	}
-	catch(...){
-		std::cout << "some exception" << std::endl;
+	catch(std::exception& e){
+		std::cout << e.what() << std::endl;
+	}
+
+
+	//exception
+	std::cout << "\n";
+	std::string invalid_strings[] = {"1m2c4i","mcc4i","m2c0x4i","2cm4i"};
+	for(int i = 0; i < 4; i++){
+		try{
+			std::cout << invalid_strings[i] << " ";
+			cpp2::mcxi execptions(invalid_strings[i]);
+		}
+		catch(std::exception& e){
+			std::cout << e.what() << std::endl;
+		}
 	}
 
     return 0;
